@@ -1,0 +1,50 @@
+
+Q1. Where are my customers located?
+SELECT Orders.ShipCountry, Count(Customers.ContactName)  AS NumberOfCustomers
+FROM Customers
+JOIN Orders
+ON Orders.CustomerID = Customers.CustomerID
+GROUP BY Orders.ShipCountry
+Order By NumberOfCustomers DESC;
+
+
+
+
+Q2. What companies supply the majority of the products I sell?
+SELECT Suppliers.CompanyName, Count(Products.ProductName) AS NumberOfProductsSupplied
+FROM Suppliers
+JOIN Products
+ON Suppliers.SupplierID = Products.SupplierID
+GROUP BY Suppliers.CompanyName
+ORDER BY NumberOfProductsSupplied DESC;
+
+
+
+
+
+Q3. Who are my highest performing employees?
+SELECT Employees.LastName, Employees.FirstName, COUNT (EmployeeTerritories.TerritoryID) AS NumberOfTerritories
+FROM Employees
+JOIN EmployeeTerritories
+ON Employees.EmployeeID = EmployeeTerritories.EmployeeID
+GROUP BY Employees.FirstName
+ORDER BY NumberOfTerritories DESC;
+
+
+
+
+Q4. What products are growing in terms of sales?
+        
+SELECT A AS SellingProducts, SUM(B*(C-D)) AS RevenueGenerated, SUM(B) AS NumberOfItemsSold
+FROM 
+(
+SELECT Products.ProductName AS A, OrderDetails.Quantity AS B, OrderDetails.UnitPrice AS C, OrderDetails.Discount AS D
+FROM Products
+JOIN OrderDetails
+ON Products.ProductID = OrderDetails.ProductID
+)
+Group By SellingProducts
+Order By NumberOfItemsSold DESC;
+
+
+
